@@ -13,4 +13,4 @@ API CRUD REST para Cadastro de Dados utilizando Spring Boot 2, Hibernate, JPA e 
 
   ALTER TABLE `cadastros`.`clientes`
   CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
-  ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC); ´´´
+  ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC); ```

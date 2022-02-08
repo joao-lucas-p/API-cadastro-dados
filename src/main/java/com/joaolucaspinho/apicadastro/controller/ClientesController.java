@@ -32,10 +32,10 @@ public class ClientesController {
 
 
     // Retorna todos os cadastros no banco de dados.
-//    @GetMapping
-//    public List findAll(){
-//        return repository.findAll();
-//    }
+    @GetMapping
+    public List findAll(){
+        return repository.findAll();
+    }
 
     // Adiciona um novo cadastro ao banco de dados com base nas informações inseridas no front-end.
     @PostMapping

@@ -31,10 +31,19 @@ public class ClientesController {
     //Metodos:
 
 
-    // Retorna todos os cadastros no banco de dados.
+//     Retorna todos os cadastros no banco de dados.
     @GetMapping
     public List findAll(){
         return repository.findAll();
+    }
+
+    // Retorna um cadastro específico através do ID.
+
+    @GetMapping(path = {"/{id}"})
+    public ResponseEntity<Clientes> findById(@PathVariable long id){
+        return repository.findById(id)
+                .map(record -> ResponseEntity.ok().body(record))
+                .orElse(new ResponseEntity("Cadastro não encontrado", HttpStatus.NOT_FOUND));
     }
 
     // Adiciona um novo cadastro ao banco de dados com base nas informações inseridas no front-end.
@@ -61,7 +70,7 @@ public class ClientesController {
             if (!mat.matches()) return ResponseEntity.badRequest().body("E-mail inválido.");
 
             repository.save(clientes);
-            return ResponseEntity.ok(clientes);
+            return ResponseEntity.ok("Cadastro bem-sucedido!");
         } catch (DataIntegrityViolationException e){
             return new ResponseEntity("CPF já cadastrado", HttpStatus.CONFLICT);
         }
@@ -93,8 +102,7 @@ public class ClientesController {
                         record.setNome(clientes.getNome());
                         record.setEmail(clientes.getEmail());
                         record.setCpf(clientes.getCpf());
-                        Clientes updated = repository.save(record);
-                        return ResponseEntity.ok().body(updated);
+                        return ResponseEntity.ok().body("Alteração bem sucedida!");
                     }).orElse(ResponseEntity.notFound().build());
         } catch (DataIntegrityViolationException e){
             return ResponseEntity.unprocessableEntity().body("CPF já cadastrado.");
@@ -109,8 +117,8 @@ public class ClientesController {
         return repository.findById(id)
                 .map(record -> {
                     repository.deleteById(id);
-                    return ResponseEntity.ok().build();
-                }).orElse(ResponseEntity.notFound().build());
+                    return ResponseEntity.ok().body("Cadastro removido com sucesso!");
+                }).orElse(new ResponseEntity("Cadastro não encontrado", HttpStatus.NOT_FOUND));
     }
 
 }
